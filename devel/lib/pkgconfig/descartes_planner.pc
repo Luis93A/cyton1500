@@ -1,0 +1,8 @@
+prefix=/home/luis/catkin_ws/devel
+
+Name: descartes_planner
+Description: Description of descartes_planner
+Version: 0.0.1
+Cflags: -I/home/luis/catkin_ws/src/descartes/descartes_planner/include -I/home/luis/catkin_ws/src/descartes/descartes_planner/test -I/usr/include -I/usr/include/eigen3
+Libs: -L/home/luis/catkin_ws/devel/lib -ldescartes_planner
+Requires: roscpp moveit_core descartes_core descartes_trajectory

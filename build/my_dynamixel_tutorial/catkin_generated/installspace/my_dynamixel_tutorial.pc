@@ -1,0 +1,8 @@
+prefix=/home/luis/catkin_ws/install
+
+Name: my_dynamixel_tutorial
+Description: Description of my_dynamixel_tutorial
+Version: 0.0.0
+Cflags: -I/home/luis/catkin_ws/install/include
+Libs: -L/home/luis/catkin_ws/install/lib -lmy_dynamixel_tutorial
+Requires: message_runtime

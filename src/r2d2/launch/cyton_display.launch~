@@ -1,0 +1,7 @@
+<?xml version='1.0'?>
+<launch>
+        
+	<param name="robot_description" textfile="$(find r2d2)/config/cyton_gamma_1500.urdf" />
+        <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" />
+        <node name="cyton_state_publisher" pkg="r2d2" type="cyton_state_publisher" />
+</launch>

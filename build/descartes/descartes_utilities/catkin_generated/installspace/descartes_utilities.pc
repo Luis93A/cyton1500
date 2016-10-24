@@ -1,0 +1,8 @@
+prefix=/home/luis/catkin_ws/install
+
+Name: descartes_utilities
+Description: Description of descartes_utilities
+Version: 0.0.1
+Cflags: -I/home/luis/catkin_ws/install/include
+Libs: -L/home/luis/catkin_ws/install/lib -ldescartes_utilities
+Requires: descartes_core descartes_trajectory trajectory_msgs

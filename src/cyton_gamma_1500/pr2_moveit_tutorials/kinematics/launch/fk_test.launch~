@@ -1,0 +1,13 @@
+<launch>
+  <include file="$(find cyton_gamma_1500_moveit_config)/launch/planning_context.launch">
+    <arg name="load_robot_description" value="true"/>
+  </include>
+
+  <node name="fk_test"
+        pkg="pr2_moveit_tutorials"
+        type="Cyton_IK"
+        respawn="false" output="screen">
+    <rosparam command="load"
+              file="$(find cyton_gamma_1500_moveit_config)/config/kinematics.yaml"/>
+  </node>
+</launch>

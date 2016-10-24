@@ -1,0 +1,2 @@
+cyton_gamma_1500/cyton_gamma_1500_description:cyton_gamma_1500/cyton_gamma_1500_moveit_config:cyton_gamma_1500/pr2_moveit_tutorials:descartes/descartes:descartes/descartes_core:descartes/descartes_moveit:descartes/descartes_planner:descartes/descartes_trajectory:descartes/descartes_utilities:introlab-find-object-5c21a76:my_dynamixel_tutorial:openni_tracker:pr2_moveit_config:r2d2
+-DCATKIN_DEVEL_PREFIX=/home/luis/catkin_ws/devel -DCMAKE_INSTALL_PREFIX=/home/luis/catkin_ws/install -G Unix Makefiles

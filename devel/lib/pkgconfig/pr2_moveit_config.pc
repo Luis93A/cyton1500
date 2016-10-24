@@ -1,0 +1,8 @@
+prefix=/home/luis/catkin_ws/devel
+
+Name: pr2_moveit_config
+Description: Description of pr2_moveit_config
+Version: 0.6.2
+Cflags: 
+Libs: -L/home/luis/catkin_ws/devel/lib 
+Requires: 

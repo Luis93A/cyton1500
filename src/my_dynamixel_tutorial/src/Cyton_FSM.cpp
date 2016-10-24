@@ -1,0 +1,198 @@
+/** Headers */
+
+#include <ros/ros.h>
+#include <tf/transform_listener.h>
+#include <geometry_msgs/Twist.h>
+
+/* ROS synchronization headers */
+#include <message_filters/subscriber.h>
+#include <message_filters/synchronizer.h>
+#include <message_filters/sync_policies/approximate_time.h>
+#include <message_filters/time_synchronizer.h>
+
+/* Message publication */
+#include "std_msgs/MultiArrayLayout.h"
+#include "std_msgs/MultiArrayDimension.h"
+#include "std_msgs/Float32MultiArray.h"
+#include "std_msgs/Float64.h"
+#include <std_msgs/Float64.h>
+#include <geometry_msgs/PoseStamped.h>
+#include <geometry_msgs/Twist.h>
+#include <dynamixel_controllers/SetSpeed.h>
+#include "std_msgs/String.h"
+#include "std_msgs/Float64.h"
+#include "std_msgs/Int32.h"
+#include "std_msgs/Int8.h"
+#include "std_msgs/Empty.h"
+#include "geometry_msgs/Pose.h"
+#include "geometry_msgs/PoseStamped.h"
+#include <geometry_msgs/PointStamped.h>
+
+/* dYnamixel */
+#include "dynamixel_controllers/SetSpeed.h"
+#include "dynamixel_controllers/SetComplianceSlope.h"
+#include "dynamixel_msgs/JointState.h"
+#include "dynamixel_msgs/MotorStateList.h"
+
+#include <sensor_msgs/JointState.h>
+
+#include "tf/transform_listener.h"
+#include "tf/message_filter.h"
+#include "message_filters/subscriber.h"
+
+
+#include <sys/time.h>
+#include <sys/types.h>
+#include <unistd.h>
+
+#include <stdio.h>                                         // for in-/output
+#include <string.h>                                        // strcat
+#include <fcntl.h>                                         // for 'O_RDONLY' deklaration
+#include <termios.h>                                       // for serial
+
+//Include system headers
+#include <cstring>
+#include <iostream>
+#include <cstdio>
+
+#include <sstream>
+//#include <math.h>
+//#include <algorithm>
+
+#include <vector>
+
+#define SHM_SIZE 1024
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <termios.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <sys/time.h>
+#include <errno.h>
+
+#include <unistd.h>
+#include <string.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <netdb.h>
+#include <fcntl.h>
+#include <sys/time.h>
+#include <sys/ipc.h>
+#include <sys/shm.h>
+#include <sys/ioctl.h>
+
+using namespace std;
+using namespace sensor_msgs;
+using namespace message_filters;
+
+/* publisher declaration */
+ros::Publisher CJPS,CJSS,CJLS,CJES;
+
+
+void callback(const dynamixel_msgs::JointState::ConstPtr& msg1, const dynamixel_msgs::JointState::ConstPtr& msg2, 
+						const dynamixel_msgs::JointState::ConstPtr& msg3, const dynamixel_msgs::JointState::ConstPtr& msg4, 
+						const dynamixel_msgs::JointState::ConstPtr& msg5, const dynamixel_msgs::JointState::ConstPtr& msg6, 
+						const dynamixel_msgs::JointState::ConstPtr& msg7, const dynamixel_msgs::JointState::ConstPtr& msg8 ){
+
+/* array declared for msg publish */
+	std_msgs::Float32MultiArray CJPS_data; /* Current Positions */
+	std_msgs::Float32MultiArray CJSS_data; /* Current speeds */
+	std_msgs::Float32MultiArray CJLS_data; /* Current load */
+	std_msgs::Float32MultiArray CJES_data; /* Current error (goal position- current position */
+/* data clear */
+	CJPS_data.data.clear();
+	CJSS_data.data.clear();
+	CJLS_data.data.clear();
+	CJES_data.data.clear();
+
+
+/* Joint position states */
+	CJPS_data.data.push_back(msg1->current_pos);
+	CJPS_data.data.push_back(msg2->current_pos);
+	CJPS_data.data.push_back(msg3->current_pos);
+	CJPS_data.data.push_back(msg4->current_pos);
+	CJPS_data.data.push_back(msg5->current_pos);
+	CJPS_data.data.push_back(msg6->current_pos);
+	CJPS_data.data.push_back(msg7->current_pos);
+	CJPS_data.data.push_back(msg8->current_pos);
+
+/* Joint speed states*/
+	CJSS_data.data.push_back(msg1->velocity);
+	CJSS_data.data.push_back(msg2->velocity);
+	CJSS_data.data.push_back(msg3->velocity);
+	CJSS_data.data.push_back(msg4->velocity);
+	CJSS_data.data.push_back(msg5->velocity);
+	CJSS_data.data.push_back(msg6->velocity);
+	CJSS_data.data.push_back(msg7->velocity);
+	CJSS_data.data.push_back(msg8->velocity);
+
+/* Joint load states*/
+	CJLS_data.data.push_back(msg1->load);
+	CJLS_data.data.push_back(msg2->load);
+	CJLS_data.data.push_back(msg3->load);
+	CJLS_data.data.push_back(msg4->load);
+	CJLS_data.data.push_back(msg5->load);
+	CJLS_data.data.push_back(msg6->load);
+	CJLS_data.data.push_back(msg7->load);
+	CJLS_data.data.push_back(msg8->load);
+
+/* Joint error states*/
+	CJES_data.data.push_back(msg1->error);
+	CJES_data.data.push_back(msg2->error);
+	CJES_data.data.push_back(msg3->error);
+	CJES_data.data.push_back(msg4->error);
+	CJES_data.data.push_back(msg5->error);
+	CJES_data.data.push_back(msg6->error);
+	CJES_data.data.push_back(msg7->error);
+	CJES_data.data.push_back(msg8->error);
+
+/* all the datas are put together and published	*/
+	CJPS.publish(CJPS_data);
+	CJSS.publish(CJSS_data);
+	CJLS.publish(CJLS_data);
+	CJES.publish(CJES_data);
+
+
+	
+}	
+
+int main(int argc, char** argv)
+{
+	ros::init(argc, argv, "cyton_FSM");
+	ros::NodeHandle nh;
+
+/* topic subscription */
+	message_filters::Subscriber<dynamixel_msgs::JointState> joint0_sub(nh, "/shoulder_roll_position_controller/state", 1); //_registered
+	message_filters::Subscriber<dynamixel_msgs::JointState> joint1_sub(nh, "/shoulder_pitch_position_controller/state", 1); //_registered
+	message_filters::Subscriber<dynamixel_msgs::JointState> joint2_sub(nh, "/shoulder_yaw_position_controller/state", 1); //_registered
+	message_filters::Subscriber<dynamixel_msgs::JointState> joint3_sub(nh, "/elbow_pitch_position_controller/state", 1); //_registered
+	message_filters::Subscriber<dynamixel_msgs::JointState> joint4_sub(nh, "/elbow_yaw_position_controller/state", 1); //_registered
+	message_filters::Subscriber<dynamixel_msgs::JointState> joint5_sub(nh, "/wrist_pitch_position_controller/state", 1); //_registered
+	message_filters::Subscriber<dynamixel_msgs::JointState> joint6_sub(nh, "/wrist_roll_position_controller/state", 1); //_registered
+	message_filters::Subscriber<dynamixel_msgs::JointState> joint7_sub(nh, "/gripper_position_controller/state", 1); //_registered
+	
+	
+/* synchronization policy*/
+	typedef sync_policies::ApproximateTime<dynamixel_msgs::JointState, dynamixel_msgs::JointState, 
+											dynamixel_msgs::JointState, dynamixel_msgs::JointState, 
+											dynamixel_msgs::JointState, dynamixel_msgs::JointState, 
+											dynamixel_msgs::JointState, dynamixel_msgs::JointState> MySyncPolicy; 
+	
+/** ApproximateTime takes a queue size as its constructor argument, hence MySyncPolicy(10)*/
+	Synchronizer<MySyncPolicy> sync(MySyncPolicy(10), joint0_sub, joint1_sub, 
+														joint2_sub, joint3_sub, 
+														joint4_sub, joint5_sub, 
+														joint6_sub, joint7_sub);
+														
+	sync.registerCallback(boost::bind(&callback, _1, _2, _3, _4, _5, _6, _7, _8));
+
+	CJPS = nh.advertise<std_msgs::Float32MultiArray>("/CJPS", 1);
+	CJSS = nh.advertise<std_msgs::Float32MultiArray>("/CJSS", 1);
+	CJLS = nh.advertise<std_msgs::Float32MultiArray>("/CJLS", 1);
+	CJES = nh.advertise<std_msgs::Float32MultiArray>("/CJES", 1);
+
+	ros::spin();
+	
+	return 0;
+};

@@ -1,0 +1,104 @@
+Joint0_controller:
+  controller:
+    package: dynamixel_controllers
+    module: joint_position_controller
+    type: JointPositionController
+  joint_name: shoulder_roll_joint
+  joint_speed: 0.1
+  motor:
+    id: 0
+    init: 2054
+    min: 395
+    max: 3700
+
+Joint1_controller:
+  controller:
+    package: dynamixel_controllers
+    module: joint_position_controller
+    type: JointPositionController
+  joint_name: shoulder_pitch_joint
+  joint_speed: 0.1
+  motor:
+    id: 1
+    init: 2212
+    min: 1065
+    max: 3025
+
+Joint2_controller:
+  controller:
+    package: dynamixel_controllers
+    module: joint_position_controller
+    type: JointPositionController
+  joint_name: shoulder_yaw_joint
+  joint_speed: 0.1
+  motor:
+    id: 2
+    init: 2050
+    min: 965
+    max: 3138
+
+Joint3_controller:
+  controller:
+    package: dynamixel_controllers
+    module: joint_position_controller
+    type: JointPositionController
+  joint_name: elbow_pitch_joint
+  joint_speed: 0.1
+  motor:
+    id: 3
+    init: 1995
+    min: 1065
+    max: 3025
+
+Joint4_controller:
+  controller:
+    package: dynamixel_controllers
+    module: joint_position_controller
+    type: JointPositionController
+  joint_name: elbow_yaw_joint
+  joint_speed: 0.1
+  motor:
+    id: 4
+    init: 2041
+    min: 965
+    max: 3138
+
+Joint5_controller:
+  controller:
+    package: dynamixel_controllers
+    module: joint_position_controller
+    type: JointPositionController
+  joint_name: wrist_pitch_joint
+  joint_speed: 0.1
+  motor:
+    id: 5
+    init: 2044
+    min: 850
+    max: 3250
+
+Joint6_controller:
+  controller:
+    package: dynamixel_controllers
+    module: joint_position_controller
+    type: JointPositionController
+  joint_name: wrist_roll_joint
+  joint_speed: 0.1
+  motor:
+    id: 6
+    init: 2043
+    min: 395
+    max: 3700
+
+Joint7_controller:
+  controller:
+    package: dynamixel_controllers
+    module: joint_position_controller
+    type: JointPositionController
+  joint_name: gripper_joint
+  joint_speed: 0.1
+  motor:
+    id: 7
+    init: 2375
+    min: 1578
+    max: 3172
+
